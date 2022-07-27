@@ -18,7 +18,7 @@ class Table:
                     self.column_widths[col_i] = len(row[col_i])
         return
 
-    def draw_top_border(self):
+    def _draw_top_border(self):
         """
         Draws the top border of the table.
         """
@@ -33,7 +33,7 @@ class Table:
             col += 1
         print(top_border)
 
-    def draw_rows(self):
+    def _draw_rows(self):
         """
         Draws the rows of the table.
 
@@ -62,15 +62,7 @@ class Table:
                 col += 1
             print(row_string)
 
-
-test_array = [["abbcbdc", "ab"],
-              ["ab", "abc"],
-              ["bc", "c"],
-              ['']]
-test_table = Table(test_array)
-
-# print(test_table.column_widths)
-test_table.draw_top_border()
-test_table.draw_rows()
-# test_table.draw_top_border()
-# test_table.draw_rows()
+    def draw(self):
+        self._draw_top_border()
+        self._draw_rows()
+        return
