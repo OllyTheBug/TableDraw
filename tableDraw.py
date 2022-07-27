@@ -1,7 +1,7 @@
 class Table:
     # Assigned in get_total_width()
     column_widths = []
-    
+
     def __init__(self, array):
         self.array = array
         self.number_of_columns = 0
@@ -17,7 +17,7 @@ class Table:
                 if len(row[col_i]) > self.column_widths[col_i]:
                     self.column_widths[col_i] = len(row[col_i])
         return
-    
+
     def draw_top_border(self):
         """
         Draws the top border of the table.
@@ -28,28 +28,29 @@ class Table:
             top_border += "═" * i
             if col < len(self.column_widths) - 1:
                 top_border += "╦"
-            else:   
+            else:
                 top_border += "╗"
             col += 1
         print(top_border)
-        
+
     def draw_rows(self):
         """
         Draws the rows of the table.
-        
+
         """
         for r in range(0, len(self.array)):
             row_string = "║"
             col = 0
-            while col<self.number_of_columns:
+            while col < self.number_of_columns:
                 if col < len(self.array[r]):
-                    row_string += self.array[r][col].ljust(self.column_widths[col])
+                    row_string += self.array[r][col].ljust(
+                        self.column_widths[col])
                 else:
                     row_string += "".ljust(self.column_widths[col])
                 row_string += "║"
                 col += 1
             print(row_string)
-            # draw a horizontal line      
+            # draw a horizontal line
             row_string = "╠" if r < len(self.array) - 1 else "╚"
             col = 0
             for i in self.column_widths:
@@ -60,21 +61,15 @@ class Table:
                     row_string += "╣" if r < len(self.array) - 1 else "╝"
                 col += 1
             print(row_string)
-             
-                
-            
 
 
-               
-
-        
-
-test_array = [["abbcbdc","ab"],
-              ["ab","abc"],
-              ["a","bc","c"]]
+test_array = [["abbcbdc", "ab"],
+              ["ab", "abc"],
+              ["bc", "c"],
+              ['']]
 test_table = Table(test_array)
 
-#print(test_table.column_widths)
+# print(test_table.column_widths)
 test_table.draw_top_border()
 test_table.draw_rows()
 # test_table.draw_top_border()
