@@ -1,84 +1,81 @@
 class Table:
     # Assigned in get_total_width()
-    longest_row = None
+    column_widths = []
+    
     def __init__(self, array):
         self.array = array
-        self.width = self.get_total_width()
-
-    def get_total_width(self):
-        """
-        Returns the width of the widest row, and sets the width-defining row.
-        """
-        highest = 0
+        self.number_of_columns = 0
         for row in self.array:
-            total_width = 0
-            for col in row:
-                total_width += len(col)
-            if total_width > highest:
-                highest = total_width
-                self.longest_row = row
-                
-        return highest
+            if len(row) > self.number_of_columns:
+                self.number_of_columns = len(row)
+        self.column_widths = [0] * self.number_of_columns
+        self.calc_column_widths()
+
+    def calc_column_widths(self):
+        for row in self.array:
+            for col_i in range(0, len(row)):
+                if len(row[col_i]) > self.column_widths[col_i]:
+                    self.column_widths[col_i] = len(row[col_i])
+        return
     
     def draw_top_border(self):
         """
         Draws the top border of the table.
         """
         top_border = "╔"
-        for i in self.longest_row:
-            for e in range(0, len(i)):
-                top_border += "═"
-            # if i is not the last element, add a "╦"
-            if i is not self.longest_row[-1]:
+        col = 0
+        for i in self.column_widths:
+            top_border += "═" * i
+            if col < len(self.column_widths) - 1:
                 top_border += "╦"
-            else:
+            else:   
                 top_border += "╗"
-        
+            col += 1
         print(top_border)
-    
+        
     def draw_rows(self):
         """
-        Draws the rows of the table, and the bottom border.
+        Draws the rows of the table.
+        
         """
-        for row in self.array:
+        for r in range(0, len(self.array)):
             row_string = "║"
-            for col_i in range(0, len(row)):
-                row_string += row[col_i]
-                # padding = len of longest_row[col_i] - len(row[col_i])
-                row_string += " " * (len(self.longest_row[col_i])-len(row[col_i]))
+            col = 0
+            while col<self.number_of_columns:
+                if col < len(self.array[r]):
+                    row_string += self.array[r][col].ljust(self.column_widths[col])
+                else:
+                    row_string += "".ljust(self.column_widths[col])
                 row_string += "║"
+                col += 1
             print(row_string)
-            #draw horizontal borders
-            if row == self.array[-1]:
-                row_string = "╚"
-                for i in self.longest_row:
-                    for e in range(0, len(i)):
-                        row_string += "═"
-                    # if i is not the last element, add a "╩"
-                    if i is not self.longest_row[-1]:
-                        row_string += "╩"
-                    else:
-                        row_string += "╝"
-                print(row_string)
-                    
-            else:
-                row_string = "╠"
-                for i in self.longest_row:
-                    for e in range(0, len(i)):
-                        row_string += "═"
-                    # if i is not the last element, add a "╬"
-                    if i is not self.longest_row[-1]:
-                        row_string += "╬"
-                    else:
-                        row_string += "╣"
-                print(row_string)
+            # draw a horizontal line      
+            row_string = "╠" if r < len(self.array) - 1 else "╚"
+            col = 0
+            for i in self.column_widths:
+                row_string += "═" * i
+                if col < len(self.column_widths) - 1:
+                    row_string += "╬" if r < len(self.array) - 1 else "╩"
+                else:
+                    row_string += "╣" if r < len(self.array) - 1 else "╝"
+                col += 1
+            print(row_string)
+             
+                
+            
+
+
+               
+
         
 
 test_array = [["abbcbdc","ab"],
               ["ab","abc"],
-              ["a","bc"]]
+              ["a","bc","c"]]
 test_table = Table(test_array)
 
-print(test_table.longest_row)
+#print(test_table.column_widths)
 test_table.draw_top_border()
 test_table.draw_rows()
+# test_table.draw_top_border()
+# test_table.draw_rows()
