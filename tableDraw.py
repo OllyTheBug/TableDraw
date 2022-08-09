@@ -9,9 +9,9 @@ class Table:
             if len(row) > self.number_of_columns:
                 self.number_of_columns = len(row)
         self.column_widths = [0] * self.number_of_columns
-        self.calc_column_widths()
+        self._calc_column_widths()
 
-    def calc_column_widths(self):
+    def _calc_column_widths(self):
         for row in self.array:
             for col_i in range(0, len(row)):
                 if len(row[col_i]) > self.column_widths[col_i]:
